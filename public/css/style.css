@@ -1,42 +1,65 @@
 body {
   font-family: 'Roboto', sans-serif;
-  /*padding: 5px;*/
+  margin-top: 80px;
 }
 
-#inboxText {
+header {
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  z-index: 999;
+}
+
+header li {
+  margin: 20px;
+}
+
+header * {
+  display: inline;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1 {
+  text-align: center;
+  margin-left: 30px;
+}
+
+/*nav {
+  display: inline-block;
+  text-align: center;
+  position: absolute;
+  background-color: white;
+  padding-top: 20px;
+  top: 0px;
+  right: 0px;
+  margin-right: 5%;
+}*/
+
+nav a {
+  cursor: pointer;
   opacity: 0.6;
+  transition: 0.15s;
 }
 
-#inboxBadgeArea:hover #inboxText {
+nav a:hover {
   opacity: 1;
 }
 
-#inboxBadgeArea {
-  text-align: center;
-  position: absolute;
-  top: 20px;
-  right: 0px;
-  margin-right: 5%;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-#inboxBadge {
+/*#inboxBadge {
   display: inline-block;
   border-radius: 50%;
   background-color: #FF6666;
   padding: 4px;
   color: white;  
-}
-
-#inboxBadgeArea:hover #inboxBadge {
-  background-color: #FF3333;
-}
-
-#inboxBadgeArea:active #inboxBadge {
-  background-color: #993333;
-  transition: 0s;
-}
+}*/
 
 #inboxMessage {
   color: grey;
@@ -48,10 +71,6 @@ body {
   margin-right: 5%;
 }
 
-h1 {
-  text-align: center;
-  margin-top: 30px;
-}
 
 .eachTask {
   cursor: pointer;
@@ -70,9 +89,9 @@ h1 {
   margin: auto;
   text-align: center;
   overflow: scroll;
-  max-height: 200px;
+  max-height: 400px;
   max-width: 400px;
-  background-color: #ECECEC;
+  /*background-color: #ECECEC;*/
   border-radius: 4px;
   padding-bottom: 25px;
   margin-bottom: 20px;
@@ -80,14 +99,16 @@ h1 {
 
 .inboxTasks {
   display: inline-block;
-  margin-left: 70px;
-  margin-right: 70px;
-  transition: 0.4s;
+  border: solid black 1px;
+  background-color: white;
+  width: 300px;
+  height: 70px;
 }
 
 .inboxTasks:hover {
   cursor: pointer;
-  font-size: 26px;
+  background-color: #66CCFF;
+  color: white;
 }
 
 #selectedTask {
@@ -106,13 +127,15 @@ h1 {
 }
 
 .addTask {
-  position: absolute;
+  /*position: absolute;*/
+  margin: auto;
+  margin-top: 15%;
   border: solid 1px grey;
   max-width: 200px;
   height: 35px;
   width: 300px;
   border-radius: 3px;
-  margin: 10px 0px 0px 20px;
+  /*margin: 10px 0px 0px 20px;*/
 }
 
 #addButton {

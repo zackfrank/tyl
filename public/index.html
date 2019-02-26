@@ -12,142 +12,158 @@
   </head>
   <body>
     <div id="app">
+      <header>
+        <h1>
+          <a href="">
+            <span style="opacity: 0.1">#</span><span style="opacity: 0.2">tag</span><span style="opacity: 0.3">your</span><span style="opacity: 0.4">life</span>
+          </a>
+        </h1>
+        <!-- Nav Menu -->
+        <!-- <div id="navMenu">
+          <div id="newCardMenu" @click="displayNewCard">
+            New Card
+          </div>
+          <div id="inboxMenu" @click="displayInbox">
+            Inbox <span v-if="inbox.length > 0">({{ inbox.length }})</span>
+          </div>
+          <div v-if="showInboxMessage" id="inboxMessage">Nothing in your inbox!</div>
+        </div> -->
 
-      <!-- Add Task -->
-      <div class="addTask">
-        <input 
-          type="text" 
-          id="taskInput" 
-          v-model="newTask" 
-          @keyup.enter="addTask"
-          placeholder="Add Task..."
-        >
-        <button @click="addTask" id="addButton">Add</button>
-        <div class="feedback">
-          <div v-if="taskAdded">Task added!</div>
-          <div v-if="taskEmpty">Enter a task, kiddo...</div>
+        <nav id="navMenu">
+          <ul>
+            <li><a @click="displayInbox">Inbox<span v-if="inbox.length > 0">({{ inbox.length }})</span></a></li>
+            <li><a @click="displayCards">Cards</a></li>
+            <li><a @click="displayNewCard">New Card</a></li>
+            <li><a>@tags</a></li>
+          </ul>
+        </nav>
+        <!-- End Nav Menu -->
+      </header>
+      
+      <main>
+        <!-- Add Card -->
+        <div class="addTask" v-if="showAddCard">
+          <input 
+            type="text" 
+            id="taskInput" 
+            v-model="newTask" 
+            @keyup.enter="addTask"
+            placeholder="Add Card..."
+          >
+          <button @click="addTask" id="addButton">Add</button>
+          <div class="feedback">
+            <div v-if="taskAdded">Card added!</div>
+            <div v-if="taskEmpty">Enter a card title, kiddo...</div>
+          </div>
         </div>
-      </div>
-      <!-- End Add Task -->
+        <!-- End Add Card -->
 
-      <!-- Inbox Badge -->
-      <div id="inboxBadgeArea" @click="displayInbox">
-        <span id="inboxText">Inbox</span>
-        <div 
-          id="inboxBadge" 
-          v-if="inbox.length > 0"
-        >
-          {{ inbox.length }}
+
+        <!-- CARDS PAGE -->
+        <div v-if="showCards">
+          <!-- Filter -->
+          <div class="filter">
+            <!-- <h3 id="filterHeading">Filter</h3> -->
+            <div class="filterTitle">
+              <select name="tagSelector" v-model="selectedTag">
+                <option disabled value="">Select a Tag...</option>
+                <option :value="tag" v-for="tag in tags">{{tag.name}}</option>
+              </select>
+              <span id="clear" @click="clearTags" v-if="selectedTags.length > 0">Clear</span>
+            </div>
+            <div class="selectedTags">
+              <div 
+                class="tagPills" 
+                v-for="tag in selectedTags"
+                @click="removeTagFilter(tag)"
+              >
+                {{tag.name}}
+              </div>
+            </div>
+            <div id="statusDiv">
+              <!-- Show:  -->
+              <div id="statusSelect" @click="changeFilterStatus">
+                <span v-if="filterStatus === false">Not Completed</span>
+                <span v-if="filterStatus === true">Completed</span>
+                <span v-if="filterStatus === null">All</span>
+              </div>
+            </div>
+          </div>
+          <!-- End of Filter -->
+
+          <!-- Task List -->
+          <div class="tasks">
+            <div class="taskList">
+              <div 
+                v-for="(task, index) in tasks" 
+                v-if="taskFiltered(task)" 
+                @click="triggerShowTaskTags(task)"
+                class="eachTask"
+              >
+                {{task.name}}
+                <input 
+                  type="checkbox" 
+                  :checked="task.completed" 
+                  @click="markComplete(task.id)"
+                  id="checkboxes"
+                >
+
+                <!-- Tag List in Task -->
+                <div class="tags">
+                  <div 
+                  class="tagPills" 
+                  v-for="tag in task.tags"
+                  v-if="showTaskTagsFor(task)"
+                  >
+                    {{tag}}
+                  </div>
+                </div>
+                <!-- End of Tags -->
+
+              </div>
+            </div>
+          </div>
+          <!-- End of Task List -->
         </div>
-      </div>
-      <div v-if="showInboxMessage" id="inboxMessage">Nothing in your inbox!</div>
-      <!-- End Inbox Badge -->
-    
-    <h1>
-      <span style="opacity: 0.1">#</span><span style="opacity: 0.2">tag</span><span style="opacity: 0.3">your</span><span style="opacity: 0.4">life</span>
-    </h1>
+        <!-- END OF CARDS PAGE -->
 
+        <!-- Inbox -->
+        <div class="inbox" v-if="showInbox">
+          <div class="taskList">
+            <div v-for="(task, index) in inbox" class="inboxTasks" @click="chooseTags(task)">
+              {{task.name}}
+            </div>
+          </div>
+        </div>
+        <!-- End of Inbox -->
 
-      <!-- Filter -->
-      <div class="filter" v-if="!showInbox">
-        <!-- <h3 id="filterHeading">Filter</h3> -->
-        <div class="filterTitle">
-          <select name="tagSelector" v-model="selectedTag">
+        <!-- Inbox Tag Selector -->
+        <div class="tagSelector" v-if="showTagSelector">
+          <div id="selectedTask">{{ selectedTask && selectedTask.name }}</div>
+          <select name="tagSelector" v-model="tagToAdd">
             <option disabled value="">Select a Tag...</option>
             <option :value="tag" v-for="tag in tags">{{tag.name}}</option>
           </select>
-          <span id="clear" @click="clearTags" v-if="selectedTags.length > 0">Clear</span>
-        </div>
-        <div class="selectedTags">
-          <div 
-            class="tagPills" 
-            v-for="tag in selectedTags"
-            @click="removeTagFilter(tag)"
-          >
-            {{tag.name}}
-          </div>
-        </div>
-        <div id="statusDiv">
-          <!-- Show:  -->
-          <div id="statusSelect" @click="changeFilterStatus">
-            <span v-if="filterStatus === false">Not Completed</span>
-            <span v-if="filterStatus === true">Completed</span>
-            <span v-if="filterStatus === null">All</span>
-          </div>
-        </div>
-      </div>
-      <!-- End of Filter -->
-
-      <!-- Task List -->
-      <div class="tasks" v-if="!showInbox">
-        <div class="taskList">
-          <div 
-            v-for="(task, index) in tasks" 
-            v-if="taskFiltered(task)" 
-            @click="triggerShowTaskTags(task)"
-            class="eachTask"
-          >
-            {{task.name}}
-            <input 
-              type="checkbox" 
-              :checked="task.completed" 
-              @click="markComplete(task.id)"
-              id="checkboxes"
-            >
-
-            <!-- Tag List in Task -->
-            <div class="tags">
-              <div 
+          <span id="clear" @click="clearTagsToAdd" v-if="tagsToAdd.length > 0">Clear</span>
+          <div class="selectedTags">
+            <div 
               class="tagPills" 
-              v-for="tag in task.tags"
-              v-if="showTaskTagsFor(task)"
-              >
-                {{tag}}
-              </div>
+              v-for="tag in tagsToAdd"
+              @click="removeTagToAdd(tag)"
+            >
+              {{tag.name}}
             </div>
-            <!-- End of Tags -->
-
+            <div 
+              v-if="tagsToAdd.length > 0" 
+              @click="addTags"
+              id="submitAddTags"
+            >Submit</div>
           </div>
         </div>
-      </div>
-      <!-- End of Task List -->
+        <!-- End of Inbox Tag Selector -->
 
-      <!-- Inbox -->
-      <div class="inbox" v-if="showInbox">
-        <div class="taskList">
-          <div v-for="(task, index) in inbox" class="inboxTasks" @click="chooseTags(task)">
-            {{task.name}}
-          </div>
-        </div>
       </div>
-      <!-- End of Inbox -->
-
-      <!-- Inbox Tag Selector -->
-      <div class="tagSelector" v-if="showTagSelector">
-        <div id="selectedTask">{{ selectedTask && selectedTask.name }}</div>
-        <select name="tagSelector" v-model="tagToAdd">
-          <option disabled value="">Select a Tag...</option>
-          <option :value="tag" v-for="tag in tags">{{tag.name}}</option>
-        </select>
-        <span id="clear" @click="clearTagsToAdd" v-if="tagsToAdd.length > 0">Clear</span>
-        <div class="selectedTags">
-          <div 
-            class="tagPills" 
-            v-for="tag in tagsToAdd"
-            @click="removeTagToAdd(tag)"
-          >
-            {{tag.name}}
-          </div>
-          <div 
-            v-if="tagsToAdd.length > 0" 
-            @click="addTags"
-            id="submitAddTags"
-          >Submit</div>
-        </div>
-      </div>
-      <!-- End of Inbox Tag Selector -->
-
-    </div>
+    </main>
   </body>
   <script src="js/main.js"></script>
 </html>

@@ -19,7 +19,9 @@ new Vue({
     showTagSelector: false,
     showTaskTags: null,
     tagToAdd: '',
-    tagsToAdd: []
+    tagsToAdd: [],
+    showAddCard: true,
+    showCards: false
   },
   created: function() {
     axios.get('/tasks').then(
@@ -38,6 +40,7 @@ new Vue({
   methods: {
     displayInbox() {
       if (this.inbox.length > 0) {
+        this.showNothing();
         this.showInbox = !this.showInbox;
       } else {
         this.showInboxMessage = true;
@@ -45,6 +48,19 @@ new Vue({
           this.showInboxMessage = false;
         }.bind(this), 3500);
       }
+    },
+    displayNewCard() {
+      this.showNothing();
+      this.showAddCard = true;
+    },
+    displayCards() {
+      this.showNothing();
+      this.showCards = true;
+    },
+    showNothing() {
+      this.showCards = false;
+      this.showAddCard = false;
+      this.showInbox = false;
     },
     chooseTags(task) {
       this.selectedTask = task;
