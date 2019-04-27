@@ -12,6 +12,7 @@
   </head>
   <body>
     <div id="app">
+      
       <header>
         <h1>
           <a href="">
@@ -19,16 +20,6 @@
           </a>
         </h1>
         <!-- Nav Menu -->
-        <!-- <div id="navMenu">
-          <div id="newCardMenu" @click="displayNewCard">
-            New Card
-          </div>
-          <div id="inboxMenu" @click="displayInbox">
-            Inbox <span v-if="inbox.length > 0">({{ inbox.length }})</span>
-          </div>
-          <div v-if="showInboxMessage" id="inboxMessage">Nothing in your inbox!</div>
-        </div> -->
-
         <nav id="navMenu">
           <ul>
             <li><a @click="displayInbox">Inbox<span v-if="inbox.length > 0">({{ inbox.length }})</span></a></li>
@@ -49,6 +40,7 @@
             v-model="newTask" 
             @keyup.enter="addTask"
             placeholder="Add Card..."
+            autocomplete="off" 
           >
           <button @click="addTask" id="addButton">Add</button>
           <div class="feedback">
