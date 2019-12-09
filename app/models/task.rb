@@ -7,6 +7,8 @@ class Task < ApplicationRecord
   validates :order, presence: false
   validates :active, presence: false
 
+  default_scope -> { order(created_at: :desc) }
+
   def as_json
     {
       id: id,
