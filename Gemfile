@@ -35,6 +35,9 @@ end
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
+
+  # Annotates Rails/ActiveRecord Models, routes, fixtures, and others based on the database schema
+  gem 'annotate'
 end
 
 
