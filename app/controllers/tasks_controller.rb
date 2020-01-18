@@ -34,9 +34,7 @@ class TasksController < ApplicationController
   end
 
   def toggle_complete!
-    return unless permitted_params[:completed]
-
-    task.toggle!(:completed)
+    task.toggle!(:completed) if permitted_params[:completed]
   end
 
   def add_tags!
