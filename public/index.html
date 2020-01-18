@@ -22,10 +22,9 @@
         <!-- Nav Menu -->
         <nav id="navMenu">
           <ul>
-            <li><a @click="displayInbox">Inbox<span v-if="inbox.length > 0">({{ inbox.length }})</span></a></li>
+            <li v-if="inbox.length > 0"><a @click="displayInbox">Inbox({{ inbox.length }})</a></li>
             <li><a @click="displayCards">Cards</a></li>
             <li><a @click="displayNewCard">New Card</a></li>
-            <li><a>@tags</a></li>
           </ul>
         </nav>
         <!-- End Nav Menu -->
