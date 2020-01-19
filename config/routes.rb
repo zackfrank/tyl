@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   patch "/tasks/:id" => "tasks#update"
 
   get "/tags" => "tags#index"
+
+  resources :cards
 end
