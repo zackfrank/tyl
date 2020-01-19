@@ -8,7 +8,9 @@ class Card < ApplicationRecord
     {
       id: id,
       title: title,
-      tags: tags.map(&:name)
+      tags: tags.map(&:name),
+      created_at: created_at.to_i,
+      updated_at: updated_at.to_i
     }
   end
 end
