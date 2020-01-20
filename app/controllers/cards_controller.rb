@@ -9,6 +9,7 @@ class CardsController < ApplicationController
 
   def update
     update_tag
+    update_title
     update_description
 
     render json: Card.all.as_json
@@ -32,6 +33,12 @@ class CardsController < ApplicationController
 
     description = params[:description].blank? ? nil : params[:description]
     card.update(description: description)
+  end
+
+  def update_title
+    return if params[:title].blank?
+
+    card.update(title: params[:title])
   end
 
   def card
