@@ -30,7 +30,8 @@ class CardsController < ApplicationController
   def update_description
     return unless params[:description]
 
-    card.update(description: params[:description])
+    description = params[:description].blank? ? nil : params[:description]
+    card.update(description: description)
   end
 
   def card
