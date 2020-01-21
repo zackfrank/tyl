@@ -22,6 +22,12 @@ class CardsController < ApplicationController
     render json: card.as_json
   end
 
+  def destroy
+    card.delete
+
+    render json: Card.all.as_json
+  end
+
   def update_tag
     return unless params[:tag]
 
