@@ -11,8 +11,9 @@ class CardsController < ApplicationController
     update_tag
     update_title
     update_description
+    update_archived
 
-    render json: Card.all.as_json
+    render json: card.as_json
   end
 
   def create
@@ -39,6 +40,12 @@ class CardsController < ApplicationController
     return if params[:title].blank?
 
     card.update(title: params[:title])
+  end
+
+  def update_archived
+    return unless params.has_key?(:archived)
+
+    card.update(archived: params[:archived])
   end
 
   def card

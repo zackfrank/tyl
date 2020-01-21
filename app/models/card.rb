@@ -10,6 +10,7 @@ class Card < ApplicationRecord
       title: title,
       description: description,
       tags: tags.map { |tag| { id: tag.id, name: tag.name } },
+      archived: archived,
       created_at: created_at.to_i,
       updated_at: updated_at.to_i
     }
