@@ -11,6 +11,7 @@ class Card < ApplicationRecord
       description: description,
       tags: tags.map { |tag| { id: tag.id, name: tag.name } },
       archived: archived,
+      date_created: created_at.strftime('%m/%d/%Y'),
       created_at: created_at.to_i,
       updated_at: updated_at.to_i
     }
