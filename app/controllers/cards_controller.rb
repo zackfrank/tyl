@@ -18,7 +18,8 @@ class CardsController < ApplicationController
 
   def create
     card = Card.create(title: params[:title], description: params[:description])
-    params[:tags].each {|tag| card.tags << Tag.find(tag['id']) }
+
+    params[:tags].each { |tag| card.tags << (tag['id'] ? Tag.find(tag['id']) : Tag.create(name: tag['name'])) }
 
     render json: card.as_json
   end
