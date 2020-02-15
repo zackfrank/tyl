@@ -1,6 +1,6 @@
 class Tag < ApplicationRecord
-  has_many :task_tags
-  has_many :tasks, through: :task_tags
+  has_many :card_tags, dependent: :destroy
+  has_many :cards, through: :card_tags
 
   def as_json
     {

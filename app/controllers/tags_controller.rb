@@ -10,4 +10,22 @@ class TagsController < ApplicationController
 
     render json: tag
   end
+
+  def update
+    tag.update(name: params[:name])
+
+    render json: tag.as_json
+  end
+
+  def destroy
+    tag.delete
+
+    render status: :ok
+  end
+
+  private
+
+  def tag
+    @tag ||= Tag.find(params[:id])
+  end
 end
