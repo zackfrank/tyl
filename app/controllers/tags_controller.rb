@@ -1,12 +1,12 @@
 class TagsController < ApplicationController
   
   def index
-    tags = Tag.all.order(:name).as_json
+    tags = current_user.tags.order(:name).as_json
     render json: tags
   end
 
   def create
-    tag = Tag.find_by(name: params[:name]) ? nil : Tag.create(name: params[:name]).as_json
+    tag = current_user.tags.find_by(name: params[:name]) ? nil : current_user.tags.create(name: params[:name]).as_json
 
     render json: tag
   end
@@ -26,6 +26,6 @@ class TagsController < ApplicationController
   private
 
   def tag
-    @tag ||= Tag.find(params[:id])
+    @tag ||= current_user.tags.find(params[:id])
   end
 end

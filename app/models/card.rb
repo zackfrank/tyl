@@ -1,6 +1,7 @@
 class Card < ApplicationRecord
   has_many :card_tags, dependent: :destroy
   has_many :tags, through: :card_tags
+  belongs_to :user
 
   default_scope -> { order(created_at: :desc) }
 
