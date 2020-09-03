@@ -20,7 +20,7 @@ class TagsController < ApplicationController
   def destroy
     tag.delete
 
-    render status: :ok
+    head :ok
   end
 
   private
