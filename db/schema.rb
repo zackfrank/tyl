@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_12_203000) do
+ActiveRecord::Schema.define(version: 2020_09_12_222506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,31 @@ ActiveRecord::Schema.define(version: 2020_09_12_203000) do
     t.boolean "archived", default: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_cards_on_user_id"
+  end
+
+  create_table "inactive_list_subtags", force: :cascade do |t|
+    t.integer "list_id", null: false
+    t.integer "tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["list_id", "tag_id"], name: "index_on_list_id_and_tag_id", unique: true
+  end
+
+  create_table "list_tags", force: :cascade do |t|
+    t.integer "list_id", null: false
+    t.integer "tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["list_id", "tag_id"], name: "index_list_tags_on_list_id_and_tag_id", unique: true
+  end
+
+  create_table "lists", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "user_id", null: false
+    t.string "sort_by", default: "created_at", null: false
+    t.string "show_option", default: "active", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tags", force: :cascade do |t|
