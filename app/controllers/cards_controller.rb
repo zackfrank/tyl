@@ -1,10 +1,6 @@
 class CardsController < ApplicationController
   def index
-    cards = params[:query] ? current_user.cards.where(
-      "title ILIKE :query OR description ILIKE :query", query: "%#{params[:query]}%"
-    ) : current_user.cards
-
-    render json: current_user.cards.as_json
+    render json: cards.as_json
   end
 
   def update
@@ -17,7 +13,7 @@ class CardsController < ApplicationController
   end
 
   def create
-    card = current_user.cards.create(title: params[:title], description: params[:description])
+    card = cards.create(title: params[:title], description: params[:description])
 
     tags = current_user.tags
     params[:tags].each do |tag|
@@ -31,7 +27,7 @@ class CardsController < ApplicationController
   def destroy
     card.delete
 
-    render json: current_user.cards.as_json
+    render json: cards.as_json
   end
 
   private
@@ -63,6 +59,10 @@ class CardsController < ApplicationController
   end
 
   def card
-    @card ||= current_user.cards.find(params[:id])
+    @card ||= cards.find(params[:id])
+  end
+
+  def cards
+    @cards ||= current_user.cards
   end
 end
