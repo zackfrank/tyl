@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: cards
+#
+#  id          :bigint           not null, primary key
+#  archived    :boolean          default(FALSE)
+#  description :text
+#  title       :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  user_id     :bigint
+#
+# Indexes
+#
+#  index_cards_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.id)
+#
 class Card < ApplicationRecord
   has_many :card_tags, dependent: :destroy
   has_many :tags, through: :card_tags
