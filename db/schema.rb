@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_03_021318) do
+ActiveRecord::Schema.define(version: 2020_09_12_203000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,37 +33,12 @@ ActiveRecord::Schema.define(version: 2020_09_03_021318) do
     t.index ["user_id"], name: "index_cards_on_user_id"
   end
 
-  create_table "projects", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "tags", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_tags_on_user_id"
-  end
-
-  create_table "task_tags", force: :cascade do |t|
-    t.integer "task_id"
-    t.integer "tag_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "tasks", force: :cascade do |t|
-    t.string "name"
-    t.integer "project_id"
-    t.date "due_date"
-    t.integer "order"
-    t.boolean "active"
-    t.boolean "completed", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "inbox", default: true
   end
 
   create_table "users", force: :cascade do |t|
